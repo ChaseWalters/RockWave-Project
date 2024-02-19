@@ -35,15 +35,17 @@ nav {
     margin-top: 10px;
 }
 
-.container {
+.nav-bar {
     margin-top: 50px;
     text-align: center;
 }
 
 .box {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 80px;
     background-color: #ddd;
     display: inline-block;
     margin: 10px;
+    line-height: 80px;
+    text-align: center;
 }
