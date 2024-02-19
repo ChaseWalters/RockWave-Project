@@ -66,6 +66,11 @@ nav {
     margin: 10px;
     line-height: 60px;
     text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #ccc;
 }
 
 
