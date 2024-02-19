@@ -1,4 +1,8 @@
-﻿body {
+﻿
+/* MAIN PAGE CS */
+
+
+body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -35,17 +39,27 @@ nav {
     margin-top: 10px;
 }
 
-.nav-bar {
+.nav-container {
     margin-top: 50px;
     text-align: center;
+    padding: 10px;
+    margin: 0 auto;
 }
 
-.box {
+.nav-bar {
+    background-color: #f2f2f2;
+    text-align: center;
+    border: 5px solid #ddd;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.nav-button {
     width: 150px;
-    height: 80px;
+    height: 60px;
     background-color: #ddd;
     display: inline-block;
     margin: 10px;
-    line-height: 80px;
+    line-height: 60px;
     text-align: center;
 }
