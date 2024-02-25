@@ -1,5 +1,5 @@
-﻿
-/* MAIN PAGE CSS */
+
+/* PRODUCER PAGE CSS */
 
 
 body {
@@ -69,9 +69,9 @@ nav {
     transition: background-color 0.3s ease;
 }
 
-.nav-button:hover {
-    background-color: #ccc;
-}
+    .nav-button:hover {
+        background-color: #ccc;
+    }
 
 
 .main-page {
