@@ -96,23 +96,76 @@ main {
     border-radius: 10px;
     padding: 20px;
     background-color: #f2f2f2;
-    flex-grow: 1;
     margin: 20px auto;
+    max-height: 75vh;
 }
 
 
 .middle-section {
-    display: flex;
-    flex-direction: column;
     border: 1px solid #000;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    height: 80%;
+}
+
+/* Style for music/song search bar */
+.music-search-bar {
+    font-size: 20px; /* Larger font size */
+    padding: 10px;
+    width: 100%; /* Take up full width */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Style for results box */
+.results-box {
+    border: 1px solid #000;
+    padding: 10px;
+    overflow-y: auto; /* Enable vertical scroll if needed */
+}
+
+.result-element {
+    border: 1px solid #000;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap; /* Allow flex items to wrap to the next line if needed */
+}
+
+/* Style for song name */
+.song-name {
+    font-weight: bold;
+    width: 40%;
+    flex-shrink: 0; /* Prevent shrinking */
+    overflow: hidden; /* Hide overflow text */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Style for song artist */
+.song-artist {
+    width: 40%;
+    flex-shrink: 0; /* Prevent shrinking */
+    overflow: hidden; /* Hide overflow text */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Style for song year */
+.song-year {
+    width: 20%;
+    font-style: italic;
+    text-align: right; /* Align the year to the right */
+    flex-shrink: 0; /* Prevent shrinking */
+    overflow: hidden; /* Hide overflow text */
+    white-space: nowrap; /* Prevent text from wrapping */
 }
 
 .right-section {
-    display: flex;
     flex-direction: column;
     border: 1px solid #000;
     padding: 20px;
+    height: 80%;
 }
 
 .section-title {
@@ -127,30 +180,29 @@ main {
 
 /* Style for left section */
 .left-section {
-    display: flex;
     flex-direction: column;
     border: 1px solid #000;
     padding: 20px;
+    height: 80%;
 }
 
 /* Style for each left box */
 .avaliable-djs {
     border: 1px solid #000;
-    padding: 0 20px; /* Adjust padding as needed */
+    padding: 0 0 0 0; /* Adjust padding as needed */
     margin-bottom: 20px;
-    height: 50%;
+    height: 70%;
     overflow: auto; /* Enable scrolling if needed */
 }
 
 .dj-list {
-    flex-direction: column;
-    align-items: center; /* Center items horizontally */
+    padding: 0 40px 0 0;
 }
 
 /* Style for DJ box */
 .dj-box {
     border: 1px solid #000;
-    padding: 10px;
+    padding: 10px 10px 10px 10px;
     margin-bottom: 10px;
     text-align: center;
 }
@@ -158,8 +210,8 @@ main {
 .date-picker {
     border: 1px solid #000;
     padding: 20px;
-    margin-bottom: 20px;
-    height: 40%;
+    margin-bottom: 10px;
+    height: 20%;
 }
 
 /* Style for error box */
@@ -167,11 +219,5 @@ main {
     border: 1px solid red;
     padding: 10px;
     color: red;
-    height: 10%;
-}
-
-
-.results-box {
-    border: 1px solid #000;
-    padding: 10px;
+    height: 30%;
 }
