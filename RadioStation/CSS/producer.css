@@ -166,6 +166,55 @@ main {
     height: 80%;
 }
 
+.playlist {
+    padding: 0;
+    list-style-type: none;
+    height: 75%;
+    border: 1px solid #000;
+    overflow-y: auto;
+}
+
+
+.playlist li {
+    border: 1px solid #000;
+    margin-bottom: 10px;
+}
+
+
+.song-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+
+.remove-button {
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.apply-selection {
+    border: 1px solid #000;
+    padding: 10px;
+    height: 10%;
+    margin-top: 20px;
+}
+
+.apply-selection button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 50px;
+}
+
 .section-title {
     background-color: #f2f2f2;
     border-bottom: 1px solid #000;
@@ -173,6 +222,8 @@ main {
     position: sticky;
     top: 0;
     z-index: 1;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 .left-section {
