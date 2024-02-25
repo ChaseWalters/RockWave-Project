@@ -17,19 +17,19 @@ nav {
     overflow: hidden;
 }
 
-    nav a {
-        float: left;
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 20px;
-        text-decoration: none;
-    }
+.profile a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
 
-        nav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
+    .profile a:hover {
+        background-color: #ddd;
+        color: black;
+    }
 
 .logo {
     float: left;
@@ -69,9 +69,9 @@ nav {
     transition: background-color 0.3s ease;
 }
 
-.nav-button:hover {
-    background-color: #ccc;
-}
+    .nav-button:hover {
+        background-color: #ccc;
+    }
 
 
 .main-page {
