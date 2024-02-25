@@ -111,19 +111,18 @@ main {
     height: 80%;
 }
 
-/* Style for music/song search bar */
+
 .music-search-bar {
-    font-size: 20px; /* Larger font size */
+    font-size: 20px;
     padding: 10px;
-    width: 100%; /* Take up full width */
-    box-sizing: border-box; /* Include padding in width calculation */
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Style for results box */
 .results-box {
     border: 1px solid #000;
     padding: 10px;
-    overflow-y: auto; /* Enable vertical scroll if needed */
+    overflow-y: auto;
 }
 
 .result-element {
@@ -131,34 +130,33 @@ main {
     padding: 10px;
     margin-bottom: 10px;
     display: flex;
-    flex-wrap: wrap; /* Allow flex items to wrap to the next line if needed */
+    flex-wrap: wrap;
 }
 
-/* Style for song name */
 .song-name {
     font-weight: bold;
     width: 40%;
-    flex-shrink: 0; /* Prevent shrinking */
-    overflow: hidden; /* Hide overflow text */
-    white-space: nowrap; /* Prevent text from wrapping */
+    flex-shrink: 0;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-/* Style for song artist */
+
 .song-artist {
     width: 40%;
-    flex-shrink: 0; /* Prevent shrinking */
-    overflow: hidden; /* Hide overflow text */
-    white-space: nowrap; /* Prevent text from wrapping */
+    flex-shrink: 0;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-/* Style for song year */
+
 .song-year {
     width: 20%;
     font-style: italic;
-    text-align: right; /* Align the year to the right */
-    flex-shrink: 0; /* Prevent shrinking */
-    overflow: hidden; /* Hide overflow text */
-    white-space: nowrap; /* Prevent text from wrapping */
+    text-align: right;
+    flex-shrink: 0;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .right-section {
@@ -177,8 +175,6 @@ main {
     z-index: 1;
 }
 
-
-/* Style for left section */
 .left-section {
     flex-direction: column;
     border: 1px solid #000;
@@ -186,20 +182,18 @@ main {
     height: 80%;
 }
 
-/* Style for each left box */
 .avaliable-djs {
     border: 1px solid #000;
-    padding: 0 0 0 0; /* Adjust padding as needed */
+    padding: 0 0 0 0;
     margin-bottom: 20px;
     height: 70%;
-    overflow: auto; /* Enable scrolling if needed */
+    overflow: auto;
 }
 
 .dj-list {
     padding: 0 40px 0 0;
 }
 
-/* Style for DJ box */
 .dj-box {
     border: 1px solid #000;
     padding: 10px 10px 10px 10px;
@@ -214,7 +208,6 @@ main {
     height: 20%;
 }
 
-/* Style for error box */
 .error-box {
     border: 1px solid red;
     padding: 10px;
