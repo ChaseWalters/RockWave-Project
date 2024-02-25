@@ -84,3 +84,94 @@ nav {
     flex-grow: 1;
     margin: 20px auto;
 }
+
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    text-align: center;
+    width: 80%;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    flex-grow: 1;
+    margin: 20px auto;
+}
+
+
+.middle-section {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+    padding: 20px;
+}
+
+.right-section {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+    padding: 20px;
+}
+
+.section-title {
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #000;
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+
+/* Style for left section */
+.left-section {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+    padding: 20px;
+}
+
+/* Style for each left box */
+.avaliable-djs {
+    border: 1px solid #000;
+    padding: 0 20px; /* Adjust padding as needed */
+    margin-bottom: 20px;
+    height: 50%;
+    overflow: auto; /* Enable scrolling if needed */
+}
+
+.dj-list {
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+}
+
+/* Style for DJ box */
+.dj-box {
+    border: 1px solid #000;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.date-picker {
+    border: 1px solid #000;
+    padding: 20px;
+    margin-bottom: 20px;
+    height: 40%;
+}
+
+/* Style for error box */
+.error-box {
+    border: 1px solid red;
+    padding: 10px;
+    color: red;
+    height: 10%;
+}
+
+
+.results-box {
+    border: 1px solid #000;
+    padding: 10px;
+}
