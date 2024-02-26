@@ -88,7 +88,7 @@ nav {
 
 main {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 20px;
     text-align: center;
     width: 80%;
@@ -111,21 +111,29 @@ main {
     max-height: 71vh;
 }
 
-
-.music-search-bar {
-    font-size: 20px;
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.results-box {
+.previous-playlist-box {
     border: 1px solid #000;
     padding: 10px;
     overflow-y: auto;
+    height: 74%;
 }
 
-.result-element {
+.previous-result-element {
+    border: 1px solid #000;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.assigned-playlist-box {
+    border: 1px solid #000;
+    padding: 10px;
+    overflow-y: auto;
+    height: 90%;
+}
+
+.assigned-result-element {
     border: 1px solid #000;
     padding: 10px;
     margin-bottom: 10px;
@@ -159,6 +167,14 @@ main {
     white-space: nowrap;
 }
 
+.playlist-name {
+    font-weight: bold;
+    width: 100%;
+    flex-shrink: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 .right-section {
     flex-direction: column;
     border: 1px solid #000;
@@ -166,19 +182,19 @@ main {
     max-height: 71vh;
 }
 
-.playlist {
+.selectedPlaylist {
     padding: 0;
     list-style-type: none;
-    height: 75%;
+    height: 90%;
     border: 1px solid #000;
     overflow-y: auto;
 }
 
 
-    .playlist li {
+.selectedPlaylist li {
         border: 1px solid #000;
         margin-bottom: 10px;
-    }
+ }
 
 
 .song-info {
@@ -189,12 +205,13 @@ main {
 }
 
 
-.remove-button {
-    background-color: #ff0000;
-    color: #fff;
+.add-button {
+    background-color: #43eb34;
+    color: #ffffff;
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
+    font-size: 20px;
     cursor: pointer;
 }
 
@@ -205,15 +222,15 @@ main {
     margin-top: 20px;
 }
 
-    .apply-selection button {
+.apply-selection button {
         padding: 10px 20px;
         background-color: #007bff;
         color: #fff;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        font-size: 50px;
-    }
+        font-size: 42px;
+}
 
 .section-title {
     background-color: #f2f2f2;
