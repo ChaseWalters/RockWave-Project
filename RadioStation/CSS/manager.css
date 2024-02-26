@@ -1,0 +1,25 @@
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-table {
+    width: 300px;
+    padding-left: 25px;
+    font-weight: bold;
+    border-collapse: collapse;
+    border: 1px solid black;
+    vertical-align: top;
+    
+}
+
+.center-table {
+        width: 900px;
+        margin: 0 auto;
+        font-weight: bold;
+}
+
+.right-table {
+
+}
