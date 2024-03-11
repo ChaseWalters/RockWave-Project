@@ -1,6 +1,7 @@
 
 /* DJ PAGE CSS */
 
+/* Will move main page css to just a link to main.css in future */
 
 body {
     margin: 0;
@@ -26,10 +27,10 @@ nav {
     text-decoration: none;
 }
 
-    .profile a:hover {
+.profile a:hover {
         background-color: #ddd;
         color: black;
-    }
+}
 
 .logo {
     float: left;
