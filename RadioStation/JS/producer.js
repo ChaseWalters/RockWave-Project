@@ -156,7 +156,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-
+    //FOR FUTURE APPLY BUTTON USES NOT IMPLEMENTED ATM
+    /*
     const applySelectionButton = document.querySelector(".apply-selection button");
     if (applySelectionButton) {
         applySelectionButton.addEventListener("click", function (event) {
@@ -164,6 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Apply Selection button clicked amazing job! This will send currentplaylist and selected dj in future");
         });
     }
+    */
 
     const datePickerForm = document.querySelector(".date-picker form");
     if (datePickerForm) {
