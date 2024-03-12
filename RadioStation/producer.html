@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Producer Demo</title>
     <link rel="stylesheet" href="CSS/producer.css">
+    <script src="JS/producer.js" defer></script>
 </head>
 <body>
     <nav>
@@ -32,27 +33,18 @@
                 <div class="section-title">Currently Available DJs</div>
                 <div class="dj-list">
                     <ul>
-                        <div class="dj-box">DJ Bettarman Example</div>
-                        <div class="dj-box">DJ Bobby Example</div>
-                        <div class="dj-box">DJ Billy Example</div>
-                        <div class="dj-box">DJ Bettarman Example</div>
-                        <div class="dj-box">DJ Bobby Example</div>
-                        <div class="dj-box">DJ Billy Example</div>
-                        <div class="dj-box">DJ Bettarman Example</div>
-                        <div class="dj-box">DJ Bobby Example</div>
-                        <div class="dj-box">DJ Billy Example</div>
-                        <div class="dj-box">DJ Bettarman Example</div>
-                        <div class="dj-box">DJ Bobby Example</div>
-                        <div class="dj-box">DJ Billy Example</div>
                     </ul>
                 </div>
             </div>
             <div class="date-picker">
                 <h2>What Day To Play?</h2>
-                <input type="date">
-                <div class="error-box">
-                    <h3>ERROR TEXT HERE</h3>
-                </div>
+                <form>
+                    <input type="date">
+                    <button type="submit">CheckDate</button>
+                    <div class="error-box">
+                        <h3>ERROR TEXT HERE</h3>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -61,76 +53,6 @@
             <input type="text" class="music-search-bar" placeholder="Search...">
             <h3>Results</h3>
             <div class="results-box">
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
-                <div class="result-element">
-                    <div class="song-name">Examaple Name</div>
-                    <div class="song-artist">Examaple Artist</div>
-                    <div class="song-year">Ex Year</div>
-                </div>
             </div>
         </div>
 
@@ -138,78 +60,6 @@
 
             <h2>Current Playlist</h2>
             <ul class="playlist">
-                <li>
-                    <div class="song-info">
-                        #1 Song Example
-                        <button class="remove-button">X</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="song-info">
-                        #2 Song Example
-                        <button class="remove-button">X</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="song-info">
-                        #3 Song Example
-                        <button class="remove-button">X</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="song-info">
-                        #4 Song Example
-                        <button class="remove-button">X</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="song-info">
-                        #5 Song Example
-                        <button class="remove-button">X</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="song-info">
-                        #6 Song Example
-                        <button class="remove-button">X</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="song-info">
-                        #7 Song Example
-                        <button class="remove-button">X</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="song-info">
-                        #8 Song Example
-                        <button class="remove-button">X</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="song-info">
-                        #9 Song Example
-                        <button class="remove-button">X</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="song-info">
-                        #10 Song Example
-                        <button class="remove-button">X</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="song-info">
-                        #11 Song Example
-                        <button class="remove-button">X</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="song-info">
-                        #12 Song Example
-                        <button class="remove-button">X</button>
-                    </div>
-                </li>
             </ul>
 
 
