@@ -6,8 +6,10 @@
     <title>Manager</title>
     <link rel="stylesheet" href="CSS/main.css">
     <link rel="stylesheet" href="CSS/manager.css">
+    
 </head>
 <body>
+    
     <nav>
         <div class="logo">
             <a href="index.html"><img src="https://thumbs.dreamstime.com/b/temporary-rubber-stamp-over-white-background-86664158.jpg" alt="Logo" width="100" height="50"></a>
@@ -27,7 +29,7 @@
     </div>
 
     <div class="table-container">
-        <table class="left-table">
+        <table class="left-table" id="left-table">
             <thead>
                 <tr>
                     <th colspan="2">DJs to select with days</th>
@@ -71,18 +73,30 @@
                 <tr><td>mm/dd/year <span style="white-space: pre;">               </span> Report 13 (Producer) (DJ) <span class="preview-icon">&#128065;</span></td></tr>
                 <tr><td>mm/dd/year <span style="white-space: pre;">               </span> Report 14 (Producer) (DJ) <span class="preview-icon">&#128065;</span></td></tr>
                 <tr><td>mm/dd/year <span style="white-space: pre;">               </span> Report 15 (Producer) (DJ) <span class="preview-icon">&#128065;</span></td></tr>
-
             </tbody>
         </table>
     </div>
-    
+
     <div class="help-box">
         <div class="helpText">HELP</div>
         <img src="images/helpPic.png" alt="help" class="helpPic">
     </div>
 
-    <div class="apply-box">
+    <div class="apply-box" onclick="alert('Applied!')">
         <div class="applyText">APPLY</div>
     </div>
+
+    <div class="search-container">
+        <h2>Report Search</h2>
+        <form id="searchForm">
+          <label for="startDate">Start Date:</label>
+          <input type="text" id="startDate" name="startDate" placeholder="mm/dd/yyyy">
+          <label for="endDate">End Date:</label>
+          <input type="text" id="endDate" name="endDate" placeholder="mm/dd/yyyy">
+          <button type="submit">Search</button>
+        </form>
+        <div id="errorMessage" style="color: red; display: none;">Please enter dates in the format mm/dd/yyyy.</div>
+    </div>
+    <script src="JS/manager.js"></script>
 </body>
 </html>
