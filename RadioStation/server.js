@@ -19,9 +19,19 @@ app.get('/', function(req, res) {
   });
 });
 
+// manager page
+app.get('/manager', function (req, res) {
+    res.render('pages/manager');
+});
+
 // producer page
 app.get('/producer', function(req, res) {
   res.render('pages/producer');
+});
+
+// dj page
+app.get('/dj', function (req, res) {
+    res.render('pages/dj');
 });
 
 app.listen(8080);
