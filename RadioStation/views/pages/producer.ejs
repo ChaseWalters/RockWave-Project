@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title><%= siteName %> | Producer Demo</title>
+	<link rel="stylesheet" href="/stylesheets/producer.css">
+	<script src="js/producer.js" defer></script>
+</head>
+<body>
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+    <div class="left-section">
+        <div class="avaliable-djs">
+            <div class="section-title">Currently Available DJs</div>
+            <div class="dj-list">
+                <ul>
+                </ul>
+            </div>
+        </div>
+        <div class="date-picker">
+            <h2>What Day To Play?</h2>
+            <form>
+                <input type="date">
+                <button type="submit">CheckDate</button>
+                <div class="error-box">
+                    <h3>ERROR TEXT HERE</h3>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="middle-section">
+        <h2>Search For Your Songs</h2>
+        <input type="text" class="music-search-bar" placeholder="Search...">
+        <h3>Results</h3>
+        <div class="results-box">
+        </div>
+    </div>
+
+    <div class="right-section">
+
+        <h2>Current Playlist</h2>
+        <ul class="playlist">
+        </ul>
+
+
+        <div class="apply-selection">
+            <button onclick="alert('Apply Selection button clicked amazing job! This will send currentplaylist and selected dj in future')">Apply Selection</button>
+        </div>
+    </div>
+
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
