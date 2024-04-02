@@ -3,8 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><%= siteName %> | Manager Demo</title>
+	<title><%= siteName %> | Producer Demo</title>
 	<link rel="stylesheet" href="/stylesheets/manager.css">
+	<script src="js/manager.js" defer></script>
 </head>
 <body>
 
@@ -12,10 +13,56 @@
   <%- include('../partials/header'); %>
 </header>
 
+<main>
 
+<div class="table-container">
+    <table class="left-table" id="left-table">
+        <thead>
+            <tr>
+                <th colspan="2">DJs to select with days</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <table class="center-table">
+        <thead>
+            <tr>
+                <th>Recent Reports</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div class="help-box" onclick="alert('Help will be available shortly.');">
+    <div class="helpText">HELP</div>
+    <img src="/images/helpPic.png" alt="help" class="helpPic">
+</div>
+
+<div class="apply-box" onclick="alert('Applied!')">
+    <div class="applyText">APPLY</div>
+</div>
+
+<div class="search-container">
+    <h2>Report Search</h2>
+    <form id="searchForm">
+        <label for="startDate">Start Date:</label>
+        <input type="text" id="startDate" name="startDate" placeholder="mm/dd/yyyy">
+        <label for="endDate">End Date:</label>
+        <input type="text" id="endDate" name="endDate" placeholder="mm/dd/yyyy">
+        <button type="submit">Search</button>
+    </form>
+    <div id="errorMessage" style="color: red; display: none;">Please enter dates in the format mm/dd/yyyy.</div>
+</div>
+</main>
 <footer>
   <%- include('../partials/footer'); %>
 </footer>
+
+
 
 </body>
 </html>
