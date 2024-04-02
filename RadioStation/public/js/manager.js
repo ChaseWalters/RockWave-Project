@@ -14,43 +14,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         leftTableBody.innerHTML = leftTableContent;
     }
+
     function generateCenterTableContent() {
         const centerTableBody = document.querySelector('.center-table tbody');
         let centerTableContent = '';
-    
+        
         for (let i = 1; i <= 15; i++) {
             centerTableContent += `
-                <tr id="report-${i}">
+                <tr>
                     <td>mm/dd/yyyy Report ${i} (Updated Producer) (Updated DJ) <span class="preview-icon">&#128065;</span></td>
                 </tr>
             `;
         }
-    
+        
         centerTableBody.innerHTML = centerTableContent;
-    
-        // Add click event listener to each report row
-        document.querySelectorAll('.center-table tbody tr').forEach((row, index) => {
-            row.addEventListener('click', () => {
-                // Remove selected class from all rows
-                document.querySelectorAll('.center-table tbody tr').forEach((row) => {
-                    row.classList.remove('selected');
-                });
-                // Add selected class to the clicked row
-                row.classList.add('selected');
-            });
-        });
-    
-        // Add click event listener to the Apply button
-        const applyButton = document.querySelector('.apply-box');
-        applyButton.addEventListener('click', () => {
-            const selectedReport = document.querySelector('.center-table tbody tr.selected');
-            if (selectedReport) {
-                const reportNumber = selectedReport.id.split('-')[1];
-                alert(`Report ${reportNumber} applied.`);
-            } else {
-                alert('Please select a report before applying.');
-            }
-        });
     }
 
     generateLeftTableContent();
