@@ -7,6 +7,10 @@ class DJ {
     }
 }
 
+let selectedTimeSlot = "";
+
+let selectedDateValue;
+
 let availableDJs = [
 ];
 
@@ -34,27 +38,6 @@ let currentPlaylistSongs = [
 let selectedDJ = null;
 
 // Fetch DJs from the database
-function fetchDJsFromDatabase() {
-    // Assuming you have a DJ model from Mongoose
-    return models.DJ.find().exec(); // This returns a promise
-}
-
-function generateDJList(djs) {
-    let djList = document.querySelector('.dj-list ul');
-    djs.forEach(dj => {
-        let djBox = document.createElement('li');
-        djBox.className = 'dj-box';
-        djBox.textContent = dj.name;
-        djBox.addEventListener('click', function () {
-            if (selectedDJ) {
-                selectedDJ.style.backgroundColor = '';
-            }
-            this.style.backgroundColor = 'green';
-            selectedDJ = this;
-        });
-        djList.appendChild(djBox);
-    });
-}
 
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -266,6 +249,103 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
     */
 
+    function fetchDJsFromDatabase() {
+        return models.DJ.find().exec();
+    }
+
+    function generateDJList(djs) {
+        let djList = document.querySelector('.dj-list ul');
+        djs.forEach(dj => {
+            let djBox = document.createElement('li');
+            djBox.className = 'dj-box';
+            djBox.textContent = dj.name;
+            djBox.addEventListener('click', function () {
+                // Highlight the selected DJ box
+                if (selectedDJ) {
+                    selectedDJ.style.backgroundColor = '';
+                }
+                // Highlight the clicked DJ box with green background
+                this.style.backgroundColor = 'green';
+
+                // Store the reference to the clicked DJ box
+                selectedDJ = this;
+
+                // Call the function to handle DJ box click with both DJ name and selected time slot
+                handleDJBoxClick(dj.name, selectedTimeSlot);
+            });
+            djList.appendChild(djBox);
+        });
+    }
+
+    // Function to fetch playlists for a DJ
+    async function fetchPlaylistsForDJ(djName, selectedTimeSlot) {
+        try {
+            // Make an asynchronous request to the backend API
+            const response = await fetch(`/api/playlists?djName=${djName}&dateTime=${selectedDateValue.toISOString()}&selectedTimeSlot=${selectedTimeSlot}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data.playlists;
+            } else {
+                throw new Error('Failed to fetch playlists');
+            }
+        } catch (error) {
+            console.error('Error fetching playlists:', error);
+            return null;
+        }
+    }
+
+    // Function to handle DJ box click
+    function handleDJBoxClick(djName, selectedTimeSlot) {
+        fetchPlaylistsForDJ(djName, selectedTimeSlot)
+            .then(playlists => {
+
+                // Clear the current playlist songs
+                currentPlaylist.innerHTML = '';
+                currentPlaylistSongs = [];
+
+                if (playlists && playlists.length > 0) {
+
+                    // Iterate through each playlist
+                    playlists.forEach(playlist => {
+                        // Iterate through each song in the playlist and add it to currentPlaylistSongs
+                        playlist.songs.forEach(song => {
+                            currentPlaylistSongs.push({
+                                name: song.name,
+                                year: song.year,
+                                artist: song.artist
+                            });
+                        });
+                    });
+
+                    // Clear the current playlist section
+                    currentPlaylist.innerHTML = '';
+
+                    // Add the songs from currentPlaylistSongs to the current playlist
+                    currentPlaylistSongs.forEach(song => {
+                        addSongToPlaylist(song);
+                    });
+
+                    updatePlaylistIndices();
+
+                } else {
+                    console.log(`No playlists found for DJ ${djName}`);
+                    console.log(`Playlist size was ${playlists.length}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error handling DJ box click:', error);
+
+                currentPlaylist.innerHTML = '';
+                currentPlaylistSongs = []; // Clear the current playlist songs arra
+            });
+    }
+
     const dateTimePicker = document.getElementById("dateTimePicker");
 
     const datePickerForm = document.querySelector(".date-picker form");
@@ -307,6 +387,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                     // Populate availableDJs array with the filtered DJs
                     generateDJList(availableDJsForHour);
+
+                    // Set the selected time slot and date
+                    selectedTimeSlot = selectedHour + ":00-" + (selectedHour + 1) + ":00";
+                    selectedDateValue = selectedDateTime;
                 } catch (error) {
                     console.error("Error fetching DJs:", error);
                 }

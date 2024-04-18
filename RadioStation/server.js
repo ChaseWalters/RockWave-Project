@@ -33,6 +33,7 @@ const songSchema = new Schema({
 const playlistSchema = new Schema({
     dj: { type: Schema.Types.ObjectId, ref: 'DJ' }, // Reference to DJ Schema
     date: Date,
+    availableTime: String, // Array to store available times for the DJ
     songs: [{ type: Schema.Types.ObjectId, ref: 'Song' }] // Reference to Song Schema
 });
 
@@ -42,6 +43,18 @@ const Song = mongoose.model('Song', songSchema);
 const Playlist = mongoose.model('Playlist', playlistSchema);
 
 const models = { DJ, Song, Playlist };
+
+// Function to create a new playlist
+function createPlaylist(Playlist, djId, date, availableTimes, songIds) {
+    var playlist = new Playlist({ dj: djId, date: date, availableTimes: availableTimes, songs: songIds });
+    playlist.save()
+        .then(savedPlaylist => {
+            console.log("Playlist saved:", savedPlaylist);
+        })
+        .catch(error => {
+            console.error("Error saving playlist:", error);
+        });
+}
 
 // Function to create a new DJ
 function createDJ(DJ, name, availableTimes) {
@@ -117,6 +130,49 @@ function createExampleSongs() {
     createSong(models.Song, "Tesda Song", "2052", "TheStones")
 }
 
+// Function to create a random playlist
+async function createRandomPlaylist() {
+    try {
+        // Get a random DJ from the database
+        const randomDJ = await models.DJ.aggregate([{ $sample: { size: 1 } }]);
+        const selectedDJ = randomDJ[0]; // Access the DJ document from the array
+
+        // Get 0-5 random songs from the database
+        const randomSongs = await models.Song.aggregate([{ $sample: { size: Math.floor(Math.random() * 6) } }]);
+
+        // Generate a random date and time for the playlist (within the next week for example)
+        const currentDate = new Date();
+        const randomDate = new Date(currentDate.getTime() + Math.random() * 7 * 24 * 60 * 60 * 1000); // Add random milliseconds within a week
+        const randomHour = Math.floor(Math.random() * 24); // Random hour (0-23)
+        randomDate.setHours(randomHour); // Set the random hour
+
+        // Select a random available time slot from the DJ's available times
+        const randomIndex = Math.floor(Math.random() * selectedDJ.availableTimes.length);
+        const selectedTimeSlot = selectedDJ.availableTimes[randomIndex];
+
+        // Create the playlist object
+        const playlist = new models.Playlist({
+            dj: selectedDJ._id, // Use the ID of the randomly selected DJ
+            date: randomDate,
+            availableTime: selectedTimeSlot, // Use the selected time slot
+            songs: randomSongs.map(song => song._id) // Use the IDs of the randomly selected songs
+        });
+
+        // Save the playlist to the database
+        const savedPlaylist = await playlist.save();
+
+        // Log the name of the DJ and the names of the songs in the playlist
+        console.log("Random playlist saved:");
+        console.log("DJ:", selectedDJ.name);
+        console.log("Songs:");
+        randomSongs.forEach(song => {
+            console.log("- ", song.name);
+        });
+    } catch (error) {
+        console.error("Error creating random playlist:", error);
+    }
+}
+
 // Usage
 
 // UNCOMMENT EACH TO ADD IF NEEDED
@@ -125,7 +181,9 @@ function createExampleSongs() {
 
 //createExampleSongs() // EXAMPLES SONGS
 
-//module.exports = createModels();
+//createRandomPlaylist(models.Playlist, models.DJ, models.Song); // ADD A RANDOM PLAYLIST
+
+//module.exports = models;
 
 //allowing the producer.js to get the dj list.
 
@@ -154,6 +212,57 @@ app.get('/api/search', (req, res) => {
             console.error("Error searching for songs:", error);
             res.status(500).json({ error: "Internal server error" });
         });
+});
+
+// Route to search for playlists based on DJ name and date/time
+app.get('/api/playlists', async (req, res) => {
+    const { djName, dateTime, selectedTimeSlot } = req.query;
+
+    try {
+        // Log the DJ name and time being searched for
+        console.log(`Looking for ${djName} playlist at ${dateTime} with selected time slot ${selectedTimeSlot}`);
+
+        // Find the DJ with the specified name
+        const dj = await models.DJ.findOne({ name: djName });
+
+        if (!dj) {
+            return res.status(404).json({ message: 'DJ not found' });
+        }
+
+        // Extract the start hour from the selectedTimeSlot
+        const selectedStartHour = parseInt(selectedTimeSlot.split('-')[0].split(':')[0]);
+
+        // Extract the available start and end hours from the availableTime
+        const [availableStartHour, availableEndHour] = selectedTimeSlot.split('-').map(time => parseInt(time.split(':')[0]));
+
+        // Parse the dateTime string into a Date object
+        const queryDate = new Date(dateTime);
+        const yearMonthDay = new Date(queryDate.getFullYear(), queryDate.getMonth(), queryDate.getDate());
+
+        console.log('Year-Month-Day:', yearMonthDay);
+
+        // Find playlists associated with the DJ and matching the selected time slot and date
+        const playlists = await models.Playlist.find({
+            dj: dj._id, // Use the ID of the found DJ
+            // Check if the selected start hour falls within any available time slot in the playlist
+            $expr: {
+                $and: [
+                    { $lte: [selectedStartHour, availableEndHour] },
+                    { $gte: [selectedStartHour, availableStartHour] }
+                ]
+            },
+            date: {
+                $gte: new Date(yearMonthDay.getFullYear(), yearMonthDay.getMonth(), yearMonthDay.getDate()),
+                $lt: new Date(yearMonthDay.getFullYear(), yearMonthDay.getMonth(), yearMonthDay.getDate() + 1)
+            }
+        }).populate('songs') // Populate the songs array in the playlist document
+            .exec();
+
+        res.json({ playlists });
+    } catch (error) {
+        console.error('Error searching for playlists:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 });
 
 // set the view engine to ejs
