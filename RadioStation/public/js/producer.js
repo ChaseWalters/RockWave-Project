@@ -8,22 +8,6 @@ class DJ {
 }
 
 let availableDJs = [
-    new DJ("Alex", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Bobby", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Charly", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Dan", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Frulm", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Gorda", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Hiltay", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Jasmin", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Iuhhhh", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("stopped", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Trying", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Tooo Uhh", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Create", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Moreah", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("MadeUp", ["12:00-14:00", "15:00-17:00"]),
-    new DJ("Namesss", ["12:00-14:00", "15:00-17:00"]),
 ];
 
 let searchResultSongs = [
@@ -59,6 +43,12 @@ let currentPlaylistSongs = [
 
 //THE CURRENTLY SELECTED DJ.. the green one
 let selectedDJ = null;
+
+// Fetch DJs from the database
+function fetchDJsFromDatabase() {
+    // Assuming you have a DJ model from Mongoose
+    return models.DJ.find().exec(); // This returns a promise
+}
 
 function generateDJList(djs) {
     let djList = document.querySelector('.dj-list ul');
@@ -117,8 +107,20 @@ function randomizeYears() {
 }
 
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+    try {
+        // Fetch DJs from the server
+        const response = await fetch('/api/djs');
+        const djs = await response.json();
 
+        // Populate availableDJs array with the fetched DJs
+        availableDJs = djs.map(dj => new DJ(dj.name, dj.availableTimes));
+
+        // Call generateDJList to update the UI with the fetched DJs
+        generateDJList(availableDJs);
+    } catch (error) {
+        console.error("Error fetching DJs:", error);
+    }
 
     let playlist = document.querySelector(".playlist");
 
