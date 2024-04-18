@@ -11,18 +11,6 @@ let availableDJs = [
 ];
 
 let searchResultSongs = [
-    { name: "Rocking it", year: "1994", artist: "TheRocks" },
-    { name: "DAba doo", year: "2055", artist: "TheStones" },
-    { name: "real songz", year: "1991", artist: "TheRocks" },
-    { name: "inever jokz", year: "2300", artist: "TheStones" },
-    { name: "If yor redndis", year: "1944", artist: "TheRocks" },
-    { name: "ToosLate", year: "2007", artist: "TheStones" },
-    { name: "WhoopsIMadeASong", year: "1972", artist: "TheRocks" },
-    { name: "NotAnother Song", year: "2010", artist: "TheStones" },
-    { name: "SuperNotrock", year: "1991", artist: "TheRocks" },
-    { name: "Another Song", year: "2016", artist: "TheStones" },
-    { name: "Not Rocking it", year: "1990", artist: "TheRocks" },
-    { name: "Tesda Song", year: "2052", artist: "TheStones" },
 ];
 
 // TEMPORARY SONG LIST FOR DEMOSTRATING THAT MY LIST CREATION WORKS :}
@@ -95,17 +83,6 @@ function updateResults() {
     }
 }
 
-//CHANGES YEARS FOR ITEMS IN SEARCH SONGS LIST FOR TESTING / GRADING will likely be removed
-function randomizeYears() {
-    let minYear = 1950;
-    let maxYear = 2024;
-
-    for (let song of searchResultSongs) {
-        let randomYear = Math.floor(Math.random() * (maxYear - minYear + 1)) + minYear;
-        song.year = randomYear.toString();
-    }
-}
-
 
 document.addEventListener("DOMContentLoaded", async function () {
     try {
@@ -120,6 +97,30 @@ document.addEventListener("DOMContentLoaded", async function () {
         generateDJList(availableDJs);
     } catch (error) {
         console.error("Error fetching DJs:", error);
+    }
+
+    // Search bar functionality
+    const musicSearchBar = document.querySelector(".music-search-bar");
+    if (musicSearchBar) {
+        musicSearchBar.addEventListener("keydown", async function (event) {
+            if (event.key === "Enter") {
+                const searchTerm = event.target.value.toLowerCase(); // Convert to lowercase for case-insensitive search
+
+                try {
+                    // Send a request to your server to search for songs matching the searchTerm
+                    const response = await fetch(`/api/search?term=${encodeURIComponent(searchTerm)}`);
+                    const matchingSongs = await response.json();
+
+                    // Update the search result songs with the matching songs returned from the server
+                    searchResultSongs = matchingSongs;
+
+                    // Update the UI with the matching songs
+                    updateResults();
+                } catch (error) {
+                    console.error("Error searching for songs:", error);
+                }
+            }
+        });
     }
 
     let playlist = document.querySelector(".playlist");
@@ -193,17 +194,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    const musicSearchBar = document.querySelector(".music-search-bar");
-    if (musicSearchBar) {
-        musicSearchBar.addEventListener("keydown", function (event) {
-            if (event.key === "Enter") {
-                const searchTerm = event.target.value;
-                alert("Search term entered: " + searchTerm + " : NOTE - will add things to list in future when database is made :p");
-                // FUTURE SEACHING STUFF GO HERE 
-            }
-        });
-    }
-
 
     const removeButtons = document.querySelectorAll(".remove-button");
     removeButtons.forEach(function (button) {
@@ -225,9 +215,5 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     });
 
-
-    randomizeYears();
-    updateResults();
-    generateDJList(availableDJs);
 
 });

@@ -139,6 +139,23 @@ app.get('/api/djs', async (req, res) => {
     }
 });
 
+//allowing producer.js to search for songs in DB
+app.get('/api/search', (req, res) => {
+    const searchTerm = req.query.term; // Get the search term from the query parameters
+
+    // Query your database for songs matching the search term
+    // This is a simplified example assuming you have a Song model
+    Song.find({ $or: [{ name: { $regex: searchTerm, $options: 'i' } }, { artist: { $regex: searchTerm, $options: 'i' } }] })
+        .then(songs => {
+            // Send the matching songs as JSON response
+            res.json(songs);
+        })
+        .catch(error => {
+            console.error("Error searching for songs:", error);
+            res.status(500).json({ error: "Internal server error" });
+        });
+});
+
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
