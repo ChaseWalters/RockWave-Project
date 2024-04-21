@@ -20,20 +20,7 @@ let searchResultSongs = [
 // TEMPORARY SONG LIST FOR DEMOSTRATING THAT MY LIST CREATION WORKS :}
 let currentPlaylistSongs = [
 ];
-/*
-    { name: "Rocking it", year: "1994", artist: "TheRocks" },
-    { name: "DAba doo", year: "2055", artist: "TheStones" },
-    { name: "real songz", year: "1991", artist: "TheRocks" },
-    { name: "inever jokz", year: "2300", artist: "TheStones" },
-    { name: "If yor redndis", year: "1944", artist: "TheRocks" },
-    { name: "ToosLate", year: "2007", artist: "TheStones" },
-    { name: "WhoopsIMadeASong", year: "1972", artist: "TheRocks" },
-    { name: "NotAnother Song", year: "2010", artist: "TheStones" },
-    { name: "SuperNotrock", year: "1991", artist: "TheRocks" },
-    { name: "Another Song", year: "2016", artist: "TheStones" },
-    { name: "Not Rocking it", year: "1990", artist: "TheRocks" },
-    { name: "Tesda Song", year: "2052", artist: "TheStones" },
-]*/
+
 //THE CURRENTLY SELECTED DJ.. the green one
 let selectedDJ = null;
 
@@ -125,6 +112,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                 // Update playlist indices
                 updatePlaylistIndices();
+
+                // Reorder the currentPlaylistSongs array
+                const songToMove = currentPlaylistSongs.splice(fromIndex, 1)[0];
+                currentPlaylistSongs.splice(toIndex, 0, songToMove);
+
+
             } else {
                 console.error("Item to move is not valid:", itemToMove);
             }
@@ -148,7 +141,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     let playlistCounter = 0; // Counter to keep track of the order of songs in the playlist
 
     // Function to add a song to the current playlist
-    function addSongToPlaylist(song) {
+    function addSongToPlaylist(songName, artist) {
         const listItem = document.createElement("li");
         const songInfo = document.createElement("div");
         songInfo.className = "song-info";
@@ -159,7 +152,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const songTitle = document.createElement("span");
         songTitle.className = "song-title";
-        songTitle.textContent = song.name;
+        songTitle.textContent = songName + " - " + artist; // Concatenate song name and artist
 
         const removeButton = document.createElement("button");
         removeButton.className = "remove-button";
@@ -191,6 +184,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // Increment the playlist index counter for the next song
         playlistCounter++;
+
+        // Add the song data to currentPlaylistSongs
+        currentPlaylistSongs.push({ name: songName, songYear: 0, artist: artist });
     }
 
     // Function to update song indices in the playlist
@@ -230,7 +226,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             // Add click event listener to add song to playlist
             resultElement.addEventListener('click', function () {
-                addSongToPlaylist(song, index); // Pass the index to addSongToPlaylist
+                addSongToPlaylist(song.name, song.artist); // Pass the index to addSongToPlaylist
             });
 
             resultsBox.appendChild(resultElement);
@@ -238,16 +234,75 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
 
-    //FOR FUTURE APPLY BUTTON USES NOT IMPLEMENTED ATM
-    /*
-    const applySelectionButton = document.querySelector(".apply-selection button");
-    if (applySelectionButton) {
-        applySelectionButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            alert("Apply Selection button clicked amazing job! This will send currentplaylist and selected dj in future");
-        });
-    }
-    */
+    // Apply button functionality
+const applySelectionButton = document.querySelector(".apply-selection button");
+if (applySelectionButton) {
+    applySelectionButton.addEventListener("click", async function (event) {
+        event.preventDefault();
+
+        try {
+            // Get the selected DJ's name
+            let selectedDJName = "";
+            if (selectedDJ) {
+                selectedDJName = selectedDJ.textContent;
+                console.log("Selected DJ Name for apply button is: " + selectedDJName);
+            }
+
+            // Check if a DJ is selected
+            if (!selectedDJName) {
+                alert("Please select a DJ before applying the playlist.");
+                return;
+            }
+
+            // Get the selected date and time
+            const selectedDateValue = dateTimePicker.value;
+            console.log(selectedDateValue);
+            const selectedDateTime = new Date(selectedDateValue);
+            const selectedTimeSlot = selectedDateTime.getHours() + ":00-" + (selectedDateTime.getHours() + 1) + ":00";
+
+            // Check if a date is selected
+            if (!selectedDateValue) {
+                alert("Please select a date before applying the playlist.");
+                return;
+            }
+
+            // Check if songs are added to the playlist
+            if (currentPlaylistSongs.length === 0) {
+                alert("Please add songs to the playlist before applying.");
+                return;
+            }
+
+            // Make a POST request to the server to apply the playlist
+            const response = await fetch('/api/applyPlaylist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    selectedDJName: selectedDJName,
+                    currentPlaylistSongs: currentPlaylistSongs,
+                    selectedDate: selectedDateTime,
+                    selectedTimeSlot: selectedTimeSlot
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const message = data.message;
+                if (message.includes("created") || message.includes("update")) {
+                    alert(`Playlist for ${selectedDJName} was ${message}`);
+                } else {
+                    alert("Something went wrong while applying the playlist.");
+                }
+            } else {
+                alert("Something went wrong while applying the playlist.");
+            }
+        } catch (error) {
+            console.error("Error applying playlist:", error);
+            alert("Something went wrong while applying the playlist.");
+        }
+    });
+}
 
     function fetchDJsFromDatabase() {
         return models.DJ.find().exec();
@@ -325,10 +380,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                     // Clear the current playlist section
                     currentPlaylist.innerHTML = '';
-
-                    // Add the songs from currentPlaylistSongs to the current playlist
-                    currentPlaylistSongs.forEach(song => {
-                        addSongToPlaylist(song);
+                    playlistCounter = 0;
+                    let tempPlaylistSongs = currentPlaylistSongs.slice();
+                    currentPlaylistSongs = [];
+                    // Add the songs from tempPlaylistSongs to the current playlist
+                    tempPlaylistSongs.forEach(song => {
+                        addSongToPlaylist(song.name, song.artist);
                     });
 
                     updatePlaylistIndices();
@@ -404,17 +461,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         button.addEventListener("click", function (event) {
             const songListItem = event.target.closest("li");
             if (songListItem) {
-                const songList = songListItem.parentElement;
-                const songs = Array.from(songList.querySelectorAll("li"));
-                const startIndex = songs.indexOf(songListItem);
+                const indexToRemove = parseInt(songListItem.querySelector(".song-info").dataset.index);
                 songListItem.remove();
-                songs.slice(startIndex + 1).forEach((song, index) => {
-                    const songNumberElement = song.querySelector(".song-number");
-                    if (songNumberElement) {
-                        const songNumber = "#" + (startIndex + index + 1);
-                        songNumberElement.textContent = songNumber;
-                    }
-                });
+                // Remove the song from currentPlaylistSongs
+                currentPlaylistSongs.splice(indexToRemove, 1);
+                // Update song numbers and playlist indices
+                updatePlaylistIndices();
             }
         });
     });

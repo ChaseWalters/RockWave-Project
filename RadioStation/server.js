@@ -1,7 +1,9 @@
 var express = require('express');
 var app = express();
+app.use(express.json());
 var path = require('path');
 var mongoose = require('mongoose');
+const { Int32 } = require('mongodb');
 
 mongoose.connect('mongodb+srv://chasewalters1apps:sSbNDeCTATogclDe@rockwave.0kgbh0t.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -26,7 +28,9 @@ const djSchema = new Schema({
 const songSchema = new Schema({
     name: String,
     year: String,
-    artist: String
+    artist: String,
+    genre: String,
+    duration: Number
 });
 
 // Playlist Schema
@@ -68,8 +72,8 @@ function createDJ(DJ, name, availableTimes) {
         });
 }
 
-function createSong(Song, name, year, artist) {
-    var song = new Song({ name: name, year: year, artist: artist });
+function createSong(Song, name, year, artist, genre, duration) {
+    var song = new Song({ name: name, year: year, artist: artist, genre: genre, duration: duration });
     song.save()
         .then(savedSong => {
             console.log(savedSong.name + " saved to Song collection.");
@@ -97,37 +101,37 @@ function getAllSongs(Song) {
 // Creating default data for DB AND TESTING
 
 function createExampleDJs() {
-    createDJ(models.DJ, "Alex", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Bobby", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Charly", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Dan", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Frulm", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Gorda", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Hiltay", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Jasmin", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Iuhhhh", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "stopped", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Trying", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Tooo Uhh", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Create", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Moreah", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "MadeUp", ["12:00-14:00", "15:00-17:00"]),
-    createDJ(models.DJ, "Namesss", ["12:00-14:00", "15:00-17:00"])
+    createDJ(models.DJ, "Alex", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Bobby", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Charly", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Dan", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Frulm", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Gorda", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Hiltay", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Jasmin", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Iuhhhh", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "stopped", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Trying", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Tooo Uhh", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Create", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Moreah", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "MadeUp", ["12:00-13:00", "15:00-16:00"]),
+    createDJ(models.DJ, "Namesss", ["12:00-13:00", "15:00-16:00"])
 }
 
 function createExampleSongs() {
-    createSong(models.Song, "Rocking it", "1994", "TheRocks"),
-    createSong(models.Song, "DAba doo", "2055", "TheStones"),
-    createSong(models.Song, "real songz", "1991", "TheRocks"),
-    createSong(models.Song, "inever jokz", "2300", "TheStones"),
-    createSong(models.Song, "If yor redndis", "1944", "TheRocks"),
-    createSong(models.Song, "ToosLate", "2007", "TheStones"),
-    createSong(models.Song, "WhoopsIMadeASong", "1972", "TheRocks"),
-    createSong(models.Song, "NotAnother Song", "2010", "TheStones"),
-    createSong(models.Song, "SuperNotrock", "1991", "TheRocks"),
-    createSong(models.Song, "Another Song", "2016", "TheStones"),
-    createSong(models.Song, "Not Rocking it", "1990", "TheRocks"),
-    createSong(models.Song, "Tesda Song", "2052", "TheStones")
+    createSong(models.Song, "Rocking it", "1994", "TheRocks", "Rock", 180),
+    createSong(models.Song, "DAba doo", "2055", "TheStones", "Rock", 210),
+    createSong(models.Song, "real songz", "1991", "TheRocks", "Rock", 191),
+    createSong(models.Song, "inever jokz", "2300", "TheStones", "Rock", 169),
+    createSong(models.Song, "If yor redndis", "1944", "TheRocks", "Rock", 178),
+    createSong(models.Song, "ToosLate", "2007", "TheStones", "Rock", 177),
+    createSong(models.Song, "WhoopsIMadeASong", "1972", "TheRocks", "Rock", 199),
+    createSong(models.Song, "NotAnother Song", "2010", "TheStones", "Rock", 203),
+    createSong(models.Song, "SuperNotrock", "1991", "TheRocks", "Jazz", 209),
+    createSong(models.Song, "Another Song", "2016", "TheStones", "Rock", 185),
+    createSong(models.Song, "Not Rocking it", "1990", "TheRocks", "Classical", 213),
+    createSong(models.Song, "Tesda Song", "2052", "TheStones", "HipHop", 158)
 }
 
 // Function to create a random playlist
@@ -138,7 +142,7 @@ async function createRandomPlaylist() {
         const selectedDJ = randomDJ[0]; // Access the DJ document from the array
 
         // Get 0-5 random songs from the database
-        const randomSongs = await models.Song.aggregate([{ $sample: { size: Math.floor(Math.random() * 6) } }]);
+        const randomSongs = await models.Song.aggregate([{ $sample: { size: Math.floor((Math.random() * 6)+1) } }]);
 
         // Generate a random date and time for the playlist (within the next week for example)
         const currentDate = new Date();
@@ -173,6 +177,8 @@ async function createRandomPlaylist() {
     }
 }
 
+//module.exports = models; 
+
 // Usage
 
 // UNCOMMENT EACH TO ADD IF NEEDED
@@ -183,7 +189,6 @@ async function createRandomPlaylist() {
 
 //createRandomPlaylist(models.Playlist, models.DJ, models.Song); // ADD A RANDOM PLAYLIST
 
-//module.exports = models;
 
 //allowing the producer.js to get the dj list.
 
@@ -261,6 +266,140 @@ app.get('/api/playlists', async (req, res) => {
         res.json({ playlists });
     } catch (error) {
         console.error('Error searching for playlists:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// Apply Button for the Producer page request
+app.post('/api/applyPlaylist', async (req, res) => {
+    try {
+        const { selectedDJName, currentPlaylistSongs, selectedDate, selectedTimeSlot } = req.body; // Extract data from the request body
+
+        // Find the DJ with the selected name from the database
+        const selectedDJ = await models.DJ.findOne({ name: selectedDJName });
+
+        if (!selectedDJ) {
+            return res.status(404).json({ message: 'Selected DJ not found' });
+        }
+
+        // Extract the start hour from the selected time slot (availableTime)
+        const [selectedStartTime, selectedEndTime] = selectedTimeSlot.split('-').map(time => parseInt(time.split(':')[0]));
+
+        // Parse the selected date into year, month, and day components
+        const year = new Date(selectedDate).getFullYear();
+        const month = new Date(selectedDate).getMonth();
+        const day = new Date(selectedDate).getDate();
+
+        // Search for existing playlists that match the criteria
+        const existingPlaylist = await models.Playlist.findOne({
+            dj: selectedDJ._id, // Use the ID of the found DJ
+            date: { $eq: new Date(year, month, day) }, // Match the year, month, and day components of the selected date exactly
+            // Check if the selected start hour falls within the available time range
+            $expr: {
+                $and: [
+                    // Check if availableTime is a string before comparing
+                    { $eq: [{ $type: "$availableTime" }, "string"] },
+                    { $eq: [{ $substrCP: ["$availableTime", 0, 2] }, selectedStartTime.toString()] } // Check if the selected start hour matches the start hour in availableTime
+                ]
+            }
+        }).populate('songs');
+
+
+        if (existingPlaylist) {
+            // Playlist found, update the existing playlist with the new songs
+
+            // Clear existing songs from the playlist
+            existingPlaylist.songs = [];
+
+            let totalDurationSeconds = 0;
+
+            // Iterate over each song in currentPlaylistSongs
+            for (const song of currentPlaylistSongs) {
+                // Find the corresponding song in the database based on name and artist
+                const matchingSong = await models.Song.findOne({ name: song.name, artist: song.artist });
+
+                if (matchingSong) {
+                    // Add the matching song to the playlist
+                    existingPlaylist.songs.push(matchingSong._id);
+
+                    // Increment the total duration of the playlist by the duration of the matching song
+                    totalDurationSeconds += matchingSong.duration;
+                } else {
+                    // Song not found in the database, you may choose to handle this case accordingly
+                    console.warn(`Song '${song.name}' by '${song.artist}' not found in the database.`);
+                }
+            }
+
+            // Convert total duration to minutes and round up
+            const totalDurationMinutes = Math.ceil(totalDurationSeconds / 60);
+
+            // Calculate the end time of the playlist
+            const endTimeHour = selectedStartTime + Math.floor(totalDurationMinutes / 60);
+            const endTimeMinute = selectedStartTime + (totalDurationMinutes % 60);
+
+            // Set the end time format (HH:MM)
+            const endTime = `${endTimeHour}:${endTimeMinute < 10 ? '0' : ''}${endTimeMinute}`;
+
+            // Update the availableTime in the existing playlist with the calculated end time
+            existingPlaylist.availableTime = `${selectedStartTime}:00-${endTime}`;
+
+            // Save the updated playlist to the database
+            await existingPlaylist.save();
+
+            console.log('Updated existing playlist');
+            res.status(200).json({ message: 'Playlist updated', playlist: existingPlaylist });
+        } else {
+            // No matching playlist found, create a new playlist
+
+            // Create a new playlist document
+            const newPlaylist = new models.Playlist({
+                dj: selectedDJ._id, // Use the ID of the selected DJ
+                date: new Date(year, month, day), // Create a Date object for the selected date
+                availableTime: selectedTimeSlot, // Use the selected time slot
+                songs: [] // Initialize an empty array for songs
+            });
+
+            let totalDurationSeconds = 0;
+
+            // Iterate over each song in currentPlaylistSongs
+            for (const song of currentPlaylistSongs) {
+                // Find the corresponding song in the database based on name and artist
+                const matchingSong = await models.Song.findOne({ name: song.name, artist: song.artist });
+
+                if (matchingSong) {
+                    // Add the matching song to the playlist
+                    newPlaylist.songs.push(matchingSong._id);
+
+                    // Increment the total duration of the playlist by the duration of the matching song
+                    totalDurationSeconds += matchingSong.duration;
+                } else {
+                    // Song not found in the database, you may choose to handle this case accordingly
+                    console.warn(`Song '${song.name}' by '${song.artist}' not found in the database.`);
+                }
+            }
+
+            // Convert total duration to minutes and round up
+            const totalDurationMinutes = Math.ceil(totalDurationSeconds / 60);
+
+            // Calculate the end time of the playlist
+            const endTimeHour = selectedStartTime + Math.floor(totalDurationMinutes / 60);
+            const endTimeMinute = selectedStartTime + (totalDurationMinutes % 60);
+
+            // Set the end time format (HH:MM)
+            const endTime = `${endTimeHour}:${endTimeMinute < 10 ? '0' : ''}${endTimeMinute}`;
+
+            // Save the end time to the new playlist
+            newPlaylist.availableTime = `${selectedStartTime}:00-${endTime}`;
+
+
+            // Save the new playlist to the database
+            await newPlaylist.save();
+
+            console.log('New playlist created');
+            res.status(200).json({ message: 'New playlist created', playlist: newPlaylist });
+        }
+    } catch (error) {
+        console.error('Error applying playlist:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
