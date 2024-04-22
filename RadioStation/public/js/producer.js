@@ -9,25 +9,67 @@ class DJ {
 
 let selectedTimeSlot = "";
 
-let selectedDateValue;
+let selectedDateValue = null;
 
-let availableDJs = [
-];
+let availableDJs = [];
 
-let searchResultSongs = [
-];
+let searchResultSongs = [];
 
 // TEMPORARY SONG LIST FOR DEMOSTRATING THAT MY LIST CREATION WORKS :}
-let currentPlaylistSongs = [
-];
+let currentPlaylistSongs = [];
 
 //THE CURRENTLY SELECTED DJ.. the green one
 let selectedDJ = null;
 
-// Fetch DJs from the database
+// selected dj name string, used for reloading page mostly
+let selectedDJName = "";
+
+let playlistCounter = 0;
+
+// Function to save all selections to localStorage
+function saveSelectionsToStorage() {
+    savePlaylistSelections();
+    saveDJAndDateSelections();
+    saveSearchResults();
+}
+
+function savePlaylistSelections() {
+    localStorage.setItem('playlistCounter', playlistCounter);
+}
+
+function saveDJAndDateSelections() {
+    localStorage.setItem('selectedTimeSlot', selectedTimeSlot);
+    localStorage.setItem('availableDJs', JSON.stringify(availableDJs));
+    localStorage.setItem('selectedDJName', selectedDJName);
+    localStorage.setItem('selectedDate', selectedDateValue);
+}
+
+function saveSearchResults() {
+    localStorage.setItem('searchResultSongs', JSON.stringify(searchResultSongs));
+}
+
+// Clear data from localStorage when necessary
+function clearDataFromStorage() {
+    localStorage.removeItem('selectedDJName');
+    localStorage.removeItem('selectedDate');
+    localStorage.removeItem('availableDJs');
+    localStorage.removeItem('searchResultSongs');
+    localStorage.removeItem('selectedTimeSlot');
+}
+
+// Load any saved data to local variables
+function loadSavedData() {
+    selectedDJName = localStorage.getItem('selectedDJName') || "";
+    selectedDateValue = localStorage.getItem('selectedDate') || null;
+    availableDJs = JSON.parse(localStorage.getItem('availableDJs')) || [];
+    searchResultSongs = JSON.parse(localStorage.getItem('searchResultSongs')) || [];
+    selectedTimeSlot = localStorage.getItem('selectedTimeSlot') || "";
+}
 
 
 document.addEventListener("DOMContentLoaded", async function () {
+
+    //clearDataFromStorage() // for testing
 
     const currentPlaylist = document.querySelector(".playlist");
     const playlist = document.querySelector(".playlist");
@@ -126,19 +168,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    // Add dragover and drop event listeners to the playlist
-    //playlist.addEventListener("dragover", handleDragOver);
-    //playlist.addEventListener("drop", handleDrop);
-
     // Function to remove a song from the playlist and update the playlistCounter
     function removeSongAndUpdateCounter(songListItem) {
         songListItem.remove();
         playlistCounter--; // Decrement the counter
         updatePlaylistIndices(); // Update the song numbers
     }
-    
-
-    let playlistCounter = 0; // Counter to keep track of the order of songs in the playlist
 
     // Function to add a song to the current playlist
     function addSongToPlaylist(songName, artist) {
@@ -198,6 +233,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             // Update dataset.index attribute
             songItem.dataset.index = index;
         });
+        savePlaylistSelections();
     }
 
     // Update the search result songs with filtered songs
@@ -231,6 +267,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             resultsBox.appendChild(resultElement);
         });
+
+        saveSearchResults();
     }
 
 
@@ -242,9 +280,10 @@ if (applySelectionButton) {
 
         try {
             // Get the selected DJ's name
-            let selectedDJName = "";
             if (selectedDJ) {
-                selectedDJName = selectedDJ.textContent;
+                if (selectedDJName == "") {
+                    selectedDJName = selectedDJ.textContent;
+                }
                 console.log("Selected DJ Name for apply button is: " + selectedDJName);
             }
 
@@ -297,6 +336,7 @@ if (applySelectionButton) {
             } else {
                 alert("Something went wrong while applying the playlist.");
             }
+            saveSelectionsToStorage();
         } catch (error) {
             console.error("Error applying playlist:", error);
             alert("Something went wrong while applying the playlist.");
@@ -324,13 +364,28 @@ if (applySelectionButton) {
 
                 // Store the reference to the clicked DJ box
                 selectedDJ = this;
+                selectedDJName = this.textContent;
+                localStorage.setItem('selectedDJName', selectedDJName);
 
                 // Call the function to handle DJ box click with both DJ name and selected time slot
                 handleDJBoxClick(dj.name, selectedTimeSlot);
             });
+
             djList.appendChild(djBox);
+
+            if (djBox.textContent === selectedDJName) {
+                djBox.style.backgroundColor = 'green'; // Highlight the selected DJ box
+                selectedDJ = djBox;
+            }
         });
     }
+
+    function formatDate(date) {
+        // Adjust the date string to account for the time zone offset
+        const adjustedDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+        return adjustedDate.toISOString().slice(0, 16); // Remove milliseconds and "Z" character
+    }
+
 
     // Function to fetch playlists for a DJ
     async function fetchPlaylistsForDJ(djName, selectedTimeSlot) {
@@ -414,7 +469,6 @@ if (applySelectionButton) {
             const selectedHour = selectedDateTime.getHours(); // Extracting the selected hour
 
             const currentDate = new Date();
-
             if (!selectedDateTimeValue) {
                 document.querySelector(".error-box h3").textContent = "No Date & Time Selected";
                 document.querySelector(".error-box").style.display = "block";
@@ -423,7 +477,7 @@ if (applySelectionButton) {
                 document.querySelector(".error-box").style.display = "block";
             } else {
                 document.querySelector(".error-box").style.display = "none";
-                alert("Selected date and time: " + selectedDateTime.toLocaleString());
+                //alert("Selected date and time: " + selectedDateTime.toLocaleString());
 
                 try {
                     // Fetch DJs from the server
@@ -448,6 +502,8 @@ if (applySelectionButton) {
                     // Set the selected time slot and date
                     selectedTimeSlot = selectedHour + ":00-" + (selectedHour + 1) + ":00";
                     selectedDateValue = selectedDateTime;
+                    localStorage.setItem('selectedDate', selectedDateValue);
+                    localStorage.setItem('selectedTimeSlot', selectedTimeSlot);
                 } catch (error) {
                     console.error("Error fetching DJs:", error);
                 }
@@ -471,5 +527,36 @@ if (applySelectionButton) {
         });
     });
 
+    //Reload any saved data to ui elements
+    function populateUI() {
+
+        loadSavedData(); // load data on page load
+
+        // Set selected date in date picker
+        if (selectedDateValue) {
+            const dateTimePicker = document.getElementById("dateTimePicker");
+            dateTimePicker.value = formatDate(new Date(selectedDateValue));
+
+            // Trigger form submission
+            const datePickerForm = document.querySelector(".date-picker form");
+            datePickerForm.dispatchEvent(new Event('submit'));
+        }
+
+        // Check if there is a selected DJ after a short delay
+        setTimeout(() => {
+            if (selectedDJ) {
+                selectedDJ.click(); // Trigger a click event on the selected DJ box
+            } else {
+                // Handle the case when there is no selected DJ
+                console.log("No selected DJ found. : " + selectedDJ);
+            }
+        }, 100); // Adjust the delay as needed
+
+        // Populate search results
+        updateResults();
+
+    }
+
+    populateUI();
 
 });
