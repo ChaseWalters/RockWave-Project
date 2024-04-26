@@ -207,6 +207,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Function to add a song to the current playlist
     function addSongToPlaylist(songName, artist) {
+
+
+
         const listItem = document.createElement("li");
         const songInfo = document.createElement("div");
         songInfo.className = "song-info";
@@ -292,7 +295,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             // Add click event listener to add song to playlist
             resultElement.addEventListener('click', function () {
-                addSongToPlaylist(song.name, song.artist); // Pass the index to addSongToPlaylist
+                if (selectedDJName != null && selectedDJName != "") {
+                    addSongToPlaylist(song.name, song.artist); // Pass the index to addSongToPlaylist
+                } else {
+                    alert("You cant add songs without a DJ Selected");
+                }
             });
 
             resultsBox.appendChild(resultElement);
