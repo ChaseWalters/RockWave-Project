@@ -66,6 +66,11 @@ function loadSavedData() {
     selectedTimeSlot = localStorage.getItem('selectedTimeSlot') || "";
 }
 
+function logout() { // BASE FUNCTION CALL WHEN CLICKING LOGOUT BUTTON 
+    clearDataFromStorage();
+    location.reload();
+}
+
 
 document.addEventListener("DOMContentLoaded", async function () {
 
