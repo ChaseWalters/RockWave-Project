@@ -204,9 +204,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Function to remove a song from the playlist and update the playlistCounter
     function removeSongAndUpdateCounter(songListItem) {
+        const indexToRemove = parseInt(songListItem.querySelector(".song-info").dataset.index);
+        console.log("Index to remove:", indexToRemove);
         songListItem.remove();
-        playlistCounter--; // Decrement the counter
-        updatePlaylistIndices(); // Update the song numbers
+        // Remove the song from currentPlaylistSongs
+        currentPlaylistSongs.splice(indexToRemove, 1);
+        console.log("Updated currentPlaylistSongs:", currentPlaylistSongs);
+        // Update song numbers and playlist indices
+        updatePlaylistIndices();
     }
 
     // Function to add a song to the current playlist
@@ -559,9 +564,11 @@ if (applySelectionButton) {
             const songListItem = event.target.closest("li");
             if (songListItem) {
                 const indexToRemove = parseInt(songListItem.querySelector(".song-info").dataset.index);
+                console.log("Index to remove:", indexToRemove);
                 songListItem.remove();
                 // Remove the song from currentPlaylistSongs
                 currentPlaylistSongs.splice(indexToRemove, 1);
+                console.log("Updated currentPlaylistSongs:", currentPlaylistSongs);
                 // Update song numbers and playlist indices
                 updatePlaylistIndices();
             }
