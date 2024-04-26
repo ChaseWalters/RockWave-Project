@@ -71,6 +71,10 @@ function logout() { // BASE FUNCTION CALL WHEN CLICKING LOGOUT BUTTON
     location.reload();
 }
 
+function help() {
+    window.location.href = "/producer/help";
+}
+
 
 document.addEventListener("DOMContentLoaded", async function () {
 

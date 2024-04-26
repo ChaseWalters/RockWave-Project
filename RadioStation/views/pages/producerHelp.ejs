@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= siteName %> | Producer Demo</title>
+    <link rel="stylesheet" href="/stylesheets/producer.css">
+
+   <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .tutorial-container {
+            max-width: 80vw; /* Limit container to 80% of the viewport width */
+            height: 70vh; /* 70% of the viewport height */
+            margin: 0 auto; /* Center horizontally */
+            overflow: hidden;
+            display: flex; /* Use flexbox for centering vertically */
+            flex-direction: column; /* Arrange child elements vertically */
+            justify-content: center; /* Center vertically */
+            align-items: center; /* Center horizontally */
+        }
+
+        .tutorial-title {
+            margin: 0 auto; /* Center horizontally */
+            align-items: center; /* Center horizontally */
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .image-container {
+    width: 100%; /* Occupy full width of the parent container */
+    height: auto; /* Auto height to allow images to scale */
+    max-height: 70vh; /* Maximum height is 70% of the viewport height */
+    overflow: hidden;
+    display: flex; /* Use flexbox for centering vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+}
+
+.image-container img {
+    width: 100%; /* Ensure images scale to fit their container */
+    max-height: 100%; /* Ensure images scale proportionally */
+    object-fit: contain; /* Maintain aspect ratio */
+}
+
+        .text-container {
+            margin-bottom: 20px;
+        }
+
+        .navigation button {
+            padding: 15px 30px; /* Adjust button size */
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin: 10px; /* Add space between buttons */
+        }
+
+        .navigation button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <h1 class="tutorial-title">How to use the Producer Page</h1>
+
+    <div class="tutorial-container">
+        <div class="image-container">
+            <img id="tutorialImage" src="image1.jpg" alt="Tutorial Image">
+        </div>
+        <div class="text-container">
+            <p id="tutorialText">Explanation of what to do / what it does</p>
+        </div>
+        <div class="navigation">
+            <button id="prevBtn">Previous</button>
+            <button id="nextBtn">Next</button>
+        </div>
+    </div>
+
+    <script>
+        const images = [
+    "/images/producerHelp/Blank.png",
+    "/images/producerHelp/selectedDate.png",
+    "/images/producerHelp/updatedDJList.png",
+    "/images/producerHelp/selectedDJ.png",
+    "/images/producerHelp/searchbar.png",
+    "/images/producerHelp/searchbarResults.png",
+    "/images/producerHelp/clickingSearchResult.png",
+    "/images/producerHelp/currentplaylist.png",
+    "/images/producerHelp/dragplaylist.png",
+    "/images/producerHelp/apply.png",
+    "/images/producerHelp/logout.png"
+];
+        const descriptions = ['First select a valid time and day (must be after present time) to be checked',
+        'Click the Check Date & Time button to send a request for avaiable DJs at that time and day',
+        'After Clicking the Date & Time button, the Available DJs list should update accordingly, \n if you dont see any DJs there might not be any avaiable at that time.',
+        'Click a DJs Name or box to select it and it will automatically check for any playlist previously made at that time and day.',
+        'To use the Search bar type in the box next to the Search button and Select the search button to start a song search (or press Enter on the keyboard).',
+        'After starting a search your results box will fill up with all songs that have data simular or matching to your search input.',
+        'Clicking on any one of your search results will add it into the current playlist section at the end of the playlist.',
+        'Clicking on the empty areas of a playlist box and dragging it to another playlist box will swap their positions in that playlist.',
+        'This is the demonstration of swapping two songs from slot 3 and 5.',
+        'Once you are ready to save your playlist, click the Apply Selection button. This will create or update a playlist for that current date, time, and DJ',
+        'You may clear your saved selections by going to the profile button and clicking Logout. This will automatically refresh your selections.']; // Add descriptions for each image
+        let currentIndex = 0;
+
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const tutorialImage = document.getElementById('tutorialImage');
+        const tutorialText = document.getElementById('tutorialText');
+
+        // Function to update image and text
+        function updateTutorial() {
+            tutorialImage.src = images[currentIndex];
+            tutorialText.textContent = descriptions[currentIndex];
+        }
+
+        // Event listeners for navigation buttons
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+            updateTutorial();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+            updateTutorial();
+        });
+
+        // Initial update
+        updateTutorial();
+    </script>
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+
+</body>
+</html>

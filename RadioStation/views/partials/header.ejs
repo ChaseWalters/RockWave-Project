@@ -2,11 +2,14 @@
 	<div class="logo">
 		<a href="/">
 			<img src="https://thumbs.dreamstime.com/b/temporary-rubber-stamp-over-white-background-86664158.jpg" alt="Logo" width="100" height="50"> 
-		</a>
+        </a>
 	</div>
-	<div class="profile">
-		<a href="#" onmouseover="showLogout()" onmouseout="hideLogout()">Profile</a>
-		<div id="logout" class="logout" style="display: none;" onmouseover="resetTimeout()" onmouseout="hideLogout()">
+	<div class="profile" onmouseover="showButtons()" onmouseout="hideButtons()">
+		<a href="#">Profile</a>
+		<div id="help" class="help" style="display: none;">
+			<a href="#" onclick="help()">Help</a>
+		</div>
+		<div id="logout" class="logout" style="display: none;">
 			<a href="#" onclick="logout()">Logout</a>
 		</div>
 	</div>
@@ -17,13 +20,13 @@
 		<a href="/" style="text-decoration: none; color: inherit;">
 			<div class="nav-button">Hub</div>
 		</a>
-		<a href="manager" style="text-decoration: none; color: inherit;">
+		<a href="/manager" style="text-decoration: none; color: inherit;">
 			<div class="nav-button">Manager</div>
 		</a>
-		<a href="producer" style="text-decoration: none; color: inherit;">
+		<a href="/producer" style="text-decoration: none; color: inherit;">
 			<div class="nav-button">Producer</div>
 		</a>
-		<a href="dj" style="text-decoration: none; color: inherit;">
+		<a href="/dj" style="text-decoration: none; color: inherit;">
 			<div class="nav-button">DJ</div>
 		</a>
 	</div>
@@ -34,29 +37,38 @@
 	position: relative;
 	}
 
-	.logout {
+	.logout, .help {
 	position: absolute;
-	left: -110px; /* Adjust the distance from the profile button */
 	top: 0;
-	padding: 5px 10px; /* Optional: Adjust padding */
+	padding: 5px 10px; /* Adjust padding */
+	}
+
+	.help {
+	right: calc(100% + 10px); /* Adjust the distance from the profile button */
+	}
+
+	.logout {
+	right: calc(100% + 120px); /* Adjust the distance from the profile button */
 	}
 </style>
 
 <script>
-	var timeout;
+	var buttonsTimeout;
 
-	function showLogout() {
-	clearTimeout(timeout);
+	function showButtons() {
+	clearTimeout(buttonsTimeout);
 	document.getElementById("logout").style.display = "block";
+	document.getElementById("help").style.display = "block";
 	}
 
-	function hideLogout() {
-	timeout = setTimeout(function() {
+	function hideButtons() {
+	buttonsTimeout = setTimeout(function() {
 	document.getElementById("logout").style.display = "none";
+	document.getElementById("help").style.display = "none";
 	}, 200); // Adjust the delay as needed (200 milliseconds in this example)
 	}
 
-	function resetTimeout() {
-	clearTimeout(timeout);
+	function resetButtonsTimeout() {
+	clearTimeout(buttonsTimeout);
 	}
 </script>

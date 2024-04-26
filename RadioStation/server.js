@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 app.use(express.json());
+app.use(express.static('public'));
 var path = require('path');
 var mongoose = require('mongoose');
 const { Int32 } = require('mongodb');
@@ -429,6 +430,10 @@ app.get('/manager', function (req, res) {
 // producer page
 app.get('/producer', function(req, res) {
   res.render('pages/producer');
+});
+
+app.get('/producer/help', function (req, res) {
+    res.render('pages/producerHelp');
 });
 
 // dj page
