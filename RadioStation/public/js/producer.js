@@ -103,6 +103,31 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
+    // Select the search button element
+    const searchButton = document.querySelector(".search-button");
+
+    // Add an event listener to the search button
+    if (searchButton) {
+        searchButton.addEventListener("click", async function () {
+            // Get the value of the search bar
+            const searchTerm = musicSearchBar.value.toLowerCase(); // Convert to lowercase for case-insensitive search
+
+            try {
+                // Send a request to your server to search for songs matching the searchTerm
+                const response = await fetch(`/api/search?term=${encodeURIComponent(searchTerm)}`);
+                const matchingSongs = await response.json();
+
+                // Update the search result songs with the matching songs returned from the server
+                searchResultSongs = matchingSongs;
+
+                // Update the UI with the matching songs
+                updateResults();
+            } catch (error) {
+                console.error("Error searching for songs:", error);
+            }
+        });
+    }
+
 
     function handleDragStart(event) {
         event.dataTransfer.setData("text/plain", event.target.dataset.index);
