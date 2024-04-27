@@ -63,25 +63,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     await generateLeftTableContent();
     await generateCenterTableContent();
 });
-function handleFormSubmission(event) {
-    event.preventDefault(); 
-  
-    var startDateInput = document.getElementById('startDate');
-    var endDateInput = document.getElementById('endDate'); 
-    var errorMessage = document.getElementById('errorMessage');
-  
-    var startDate = startDateInput.value;
-    var endDate = endDateInput.value;
-  
-    if (!isValidDate(startDate) || !isValidDate(endDate)) {
-        errorMessage.style.display = 'block'; 
-        return;
-    }
-  
-    console.log('Start Date:', startDate);
-    console.log('End Date:', endDate);
-}
-
 var helpBox = document.querySelector('.help-box');
 helpBox.addEventListener('click', function() {
     alert('Help will be available shortly.');
