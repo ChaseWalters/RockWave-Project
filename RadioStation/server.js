@@ -205,10 +205,10 @@ app.get('/api/djs', async (req, res) => {
 
 app.get('/api/songs', async (req, res) => {
 
-    Song.find(function (err, songs) {
-        res.json(songs);
-        if (err) return console.error(err);
-    });
+    //Song.find(function (err, songs) {
+    //    res.json(songs);
+    //    if (err) return console.error(err);
+   // });
 
     // try {
     //     const songs = await models.Song.find().exec();

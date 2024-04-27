@@ -217,8 +217,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Function to add a song to the current playlist
     function addSongToPlaylist(songName, artist) {
 
-
-
         const listItem = document.createElement("li");
         const songInfo = document.createElement("div");
         songInfo.className = "song-info";
