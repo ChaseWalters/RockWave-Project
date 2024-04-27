@@ -28,20 +28,20 @@ document.addEventListener('DOMContentLoaded', async function() {
         leftTableBody.innerHTML = leftTableContent;
     }
     
-    // async function fetchSongs() {
-    //     try {
-    //         const response = await fetch('/api/songs');
-    //         if (!response.ok) {
-    //             throw new Error('Failed to fetch songs');
-    //         }
-    //         const songs = await response.json();
+    async function fetchSongs() {
+        try {
+            const response = await fetch('/api/songs');
+            if (!response.ok) {
+                throw new Error('Failed to fetch songs');
+            }
+            const songs = await response.json();
             
-    //         return songs;
-    //     } catch (error) {
-    //         console.error('Error fetching songs:', error);
-    //         return [];
-    //     }
-    // }
+            return songs;
+        } catch (error) {
+            console.error('Error fetching songs:', error);
+            return [];
+        }
+    }
     
     async function generateCenterTableContent() {
         const centerTableBody = document.querySelector('.center-table tbody');
